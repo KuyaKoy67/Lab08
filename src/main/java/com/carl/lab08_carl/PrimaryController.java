@@ -1,3 +1,5 @@
+package com.carl.lab08_carl;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.RadioButton;
@@ -6,6 +8,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
+import javafx.scene.shape.Circle;
 
 public class PrimaryController {
     
@@ -34,59 +37,35 @@ public class PrimaryController {
     }
     
     @FXML
-    void largeRadioButtonSelected(ActionEvent event) {
-
+    void drawingAreaMouseDragged(MouseEvent e) {
+        Circle newCircle = new Circle(e.getX(), e.getY(),
+                radius.getRadius(), brushColor);
+        drawingAreaPane.getChildren().add(newCircle);
     }
 
     @FXML
-    void mediumRadioButtonSelected(ActionEvent event) {
-
+    void colorRadioButtonSelected() {
+        brushColor = (Color) colorToggleGroup.getSelectedToggle().getUserData();
     }
+
+    @FXML
+    void sizeRadioButtonSelected() {
+        radius = (PenSize) sizeToggleGroup.getSelectedToggle().getUserData();
+    }
+
     
     @FXML
-    private ToggleGroup colorToggleGroup;
+    void undoButtonPressed() {
+        int count = drawingAreaPane.getChildren().size();
 
-    @FXML
-    private ToggleGroup sizeToggleGroup;
-
-    @FXML
-    void OnMouseDragged(MouseEvent event) {
-        
+        if (count > 0) {
+            drawingAreaPane.getChildren().remove(count - 1);
+        }
     }
 
     @FXML
-    void blackRadioButtonSelected(ActionEvent event) {
-
-    }
-
-    @FXML
-    void blueRadioButtonSelected(ActionEvent event) {
-
-    }
-
-    @FXML
-    void clearButtonPressed(ActionEvent event) {
-
-    }
-
-    @FXML
-    void greenRadioButtonSelected(ActionEvent event) {
-
-    }
-
-    @FXML
-    void redRadioButtonSelected(ActionEvent event) {
-
-    }
-
-    @FXML
-    void smallRadioButtonSelected(ActionEvent event) {
-
-    }
-
-    @FXML
-    void undoButtonPressed(ActionEvent event) {
-
+    void clearButtonPressed() {
+        drawingAreaPane.getChildren().clear();
     }
     
     private enum PenSize {
